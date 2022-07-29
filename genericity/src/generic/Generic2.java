@@ -10,7 +10,8 @@ package generic;
 
 /**
  * Object[] array = new Object[10];
- * public T[] array = new T[10]; ====== 报错的原因是由于数组的特殊性质，在实例化数组的时候 T不是一个具体类型
+ * public T[] array = new T[10]; ====== 报错的原因是由
+ * 于数组的特殊性质，在实例化数组的时候 T不是一个具体类型
  * public T[] array = (T[])new Object[10];
  *
  *
@@ -41,6 +42,9 @@ public class Generic2<T> {
         array[pos] = val;
     }
 
+    public T[] getArray(){
+        return array;
+    }
 
 
     public static void main(String[] args) {
@@ -73,6 +77,7 @@ public class Generic2<T> {
 
         //泛型类的使用如果不使用<> 称裸类型
         Generic2 generic21 = new Generic2();
+        Integer integer = new Integer(12);
 
 
         /**

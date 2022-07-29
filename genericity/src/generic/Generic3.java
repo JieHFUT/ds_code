@@ -9,7 +9,9 @@ package generic;
  *
  * 泛型的上界
  * class Alg<T extends Comparable<T>> {}
- * 只要实现了这个接口的，都可以接收
+ * 其在编译的时候转换为 Object类，所以只有Object类的方法，想要实现其他的方法，
+ * 就要实现接口，然后重写，而如果这个泛型类->其他类，如泛型类->Inerger类，由于Inerger已经重写了compareTo方法，所以
+ * 只要实现了这个接口的，都可以接收 -- 就像Interger实现了这个接口，就可以接收
  */
 
 
