@@ -10,7 +10,11 @@ package generic;
 
 /**
  * Object[] array = new Object[10];
- * public T[] array = new T[10];
+ * public T[] array = new T[10]; ====== 报错的原因是由于数组的特殊性质，在实例化数组的时候 T不是一个具体类型
+ * public T[] array = (T[])new Object[10];
+ *
+ *
+ *
  * <T> --------- 泛型 ------- 占位符，表示当前类是一个泛型类
  *
  */
@@ -67,11 +71,13 @@ public class Generic2<T> {
 
 
 
+        //泛型类的使用如果不使用<> 称裸类型
+        Generic2 generic21 = new Generic2();
 
 
-
-
-
+        /**
+         * Java的泛型，是在编译的时候，将类型 T擦除为了Object
+         */
 
     }
 }
