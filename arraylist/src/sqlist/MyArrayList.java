@@ -1,6 +1,5 @@
 package sqlist;
 
-import javax.xml.bind.annotation.XmlType;
 import java.util.Arrays;
 
 /**
@@ -94,7 +93,6 @@ public class MyArrayList {
     }
     private boolean checkPosInGet(int pos){
         if (pos < 0 || pos > this.usedSize){
-            System.out.println("pos位置不合法！");
             return false;
         }
         return true;
@@ -108,14 +106,13 @@ public class MyArrayList {
             throw new MyArrayListIndexIllegal("获取pos下标时，位置不合法！");
         }
         if (isEmptyInGet()){
-            throw new MyArrayIsEmptyExption("空数组异常！");
+            throw new MyArrayIsEmptyExption("空数组，无法获取数值！");
         }
         return this.elem[pos];
     }
 
     private boolean checkPosInSet(int pos){
         if (pos < 0 || pos > this.usedSize){
-            System.out.println("pos位置不合法！");
             return true;
         }
         return false;
@@ -129,24 +126,43 @@ public class MyArrayList {
             throw new MyArrayListIndexIllegal("获取pos下标时，位置不合法！");
         }
         if (isEmptyInSet()){
-            throw new MyArrayIsEmptyExption("空数组异常！");
+            throw new MyArrayIsEmptyExption("空数组，无法置值！");
         }
         this.elem[pos] = value;
+    }
+    private boolean isEmptyInRomove(){
+        return this.usedSize == 0;
     }
     //删除第一次出现的关键字key
     public void remove(int toRemove) {
 
+        if (this.isEmptyInRomove()){
+            throw new MyArrayIsEmptyExption("顺序表为空！无法删除！");
+        }
+
+        for (int i = 0; i < this.usedSize; i++) {
+            if (this.elem[i] == toRemove){
+                for (int j = i; j < this.usedSize-1; j++) {
+                    this.elem[j] = this.elem[j+1];
+                }
+                this.usedSize--;
+                this.elem[this.usedSize] = 0;
+                return;
+            }
+        }
+        throw new MyArrayListInputExption("要删除的数据不存在！");
     }
     // 获取顺序表长度
     public int size() {
-        return 0;
+        return this.usedSize;
     }
     // 清空顺序表
     public void clear() {
-
+        for (int i = 0; i < this.usedSize; i++) {
+            this.elem[i] = 0;
+        }
+        this.usedSize = 0;
     }
-
-
 
 
 
