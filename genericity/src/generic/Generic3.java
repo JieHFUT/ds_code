@@ -27,8 +27,15 @@ class Alg<T extends Comparable<T>> {
     }
 }
 
-//静态的泛型方法
+/**
+ * 静态的泛型方法
+ * Alg2
+ * findMax
+ */
 class Alg2 {
+    //public static T findMax(T[] array) ----------- 报错，因为这个方法会依赖对象
+    //用<T>来声明一下这个T    ----- public static <T> T findMax(T[] array)
+    //如果要实现compareTo，还要extends对应的接口
     public static<T extends Comparable<T> > T findMax(T[] array){
         T max = array[0];
         for (int i = 1; i < array.length; i++) {
@@ -78,8 +85,9 @@ public class Generic3 {
         System.out.println(max);
 
 
-        Integer max2 = Alg2.findMax(array);
-        Integer max3 = Alg2.<Integer>findMax(array);
+        Integer[] array1 = {1,2,3,4,5,6,7,8};
+        Integer max2 = Alg2.findMax(array1);//不写Interger的时候，会根据array1来推导出来对应类型
+        Integer max3 = Alg2.<Integer>findMax(array1);
 
 
 
