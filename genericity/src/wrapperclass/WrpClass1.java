@@ -41,6 +41,7 @@ public class WrpClass1 {
     }
     public static void main1(String[] args) {
         int a = 10;
+
         Integer b = a;//自动装箱
         Integer c = Integer.valueOf(a);//手动装箱
         System.out.println(b);//10

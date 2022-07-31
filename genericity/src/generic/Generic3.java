@@ -89,8 +89,6 @@ public class Generic3 {
         Integer max2 = Alg2.findMax(array1);//不写Interger的时候，会根据array1来推导出来对应类型
         Integer max3 = Alg2.<Integer>findMax(array1);
 
-
-
         Alg<Student> alg1 = new Alg<>();
         Student[] students = new Student[3];
         students[0] = new Student("wangrenjei",23);

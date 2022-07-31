@@ -39,6 +39,10 @@ public class Generic1 {
         String ret = (String) generic.getPos(1);
 
 
+        Object object1 = 10;
+        Object object2 = "dwqd";
+
+
     }
 
 }

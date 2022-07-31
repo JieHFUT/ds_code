@@ -30,6 +30,10 @@ public class Generic5 {
 
     public static void main(String[] args) {
         List<Person> list1 = new ArrayList<>();
+        list1.add(new Person());
+        System.out.println(list1);//[generic.Person@1b6d3586]
+
+
         List<Student2> list2 = new ArrayList<>();
 
         //list1 = list2;

@@ -24,7 +24,7 @@ class Apple extends Fruit {
 }
 class Banana extends Fruit {
 }
-class Plate<T> { // 设置泛型上限
+class Plate<T> {
     private T plate ;
     public T getPlate() {
         return plate;
