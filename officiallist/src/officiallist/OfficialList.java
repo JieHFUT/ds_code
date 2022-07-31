@@ -30,19 +30,24 @@ public class OfficialList {
         arrayList1.add(3,55);
         System.out.println(arrayList1);//[11, 22, 33, 55]
 
-        //sublist函数实在其本身上截取一段，没有创建一个新的对象
+        //sublist函数实在其本身上截取一段，没有创建一个新的对象，注意返回值是List<E>
         List<Integer> list = arrayList1.subList(1,3);
         System.out.println(list);
         System.out.println("====================================");
 
 
+        //将list的1下标改成99
         list.set(1,99);
         System.out.println("list：" + list);//[22, 99]
         System.out.println("arrayList1：" + arrayList1);//[11, 22, 99, 55]
 
 
         System.out.println("====================================");
-        //输出方法
+
+
+        /**
+         * 输出方法
+         */
         System.out.println(arrayList1);
         for (int i = 0; i < arrayList1.size(); i++) {
             System.out.print(arrayList1.get(i)+" ");
@@ -56,6 +61,7 @@ public class OfficialList {
 
 
         System.out.println("=====================================");
+
         //使用迭代器打印
         Iterator<Integer> it = arrayList1.iterator();
         while(it.hasNext()){
@@ -66,9 +72,9 @@ public class OfficialList {
 
 
 
-        Iterator<Integer> it1 = arrayList1.listIterator();
-        while(it1.hasNext()){
-            System.out.print(it1.next() + " ");
+        Iterator<Integer> it2 = arrayList1.listIterator();
+        while(it2.hasNext()){
+            System.out.print(it2.next() + " ");
         }
         System.out.println();
         
@@ -103,6 +109,7 @@ public class OfficialList {
         System.out.println(arrayList1);
 
         ArrayList<Integer> arrayList2 = new ArrayList<>();
+        //尾插C中的元素
         arrayList2.addAll(arrayList1);
         arrayList2.add(1,2);
         System.out.println(arrayList2);
