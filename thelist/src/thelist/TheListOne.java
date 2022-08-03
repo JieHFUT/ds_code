@@ -217,36 +217,118 @@ public class TheListOne {
         return;
     }
 
-//    //给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
-//    //如果有两个中间结点，则返回第二个中间结点
-//    public ListNode returnMiddle(TheListOne theListOne){
-//
-//    }
-//
-//    //输入一个链表，输出该链表中倒数第k个结点
-//    public ListNode soutLastNumK(TheListOne theListOne){
-//
-//    }
-//
-//    //将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的
-//    public TheListOne returnNew(TheListOne theListOne1, TheListOne theListOne2){
-//
-//    }
-//
-//    //编写代码，以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
-//    public ListNode segmentation(ListNode listNode){
-//
-//    }
-//
-//    //链表的回文结构
-//    public TheListOne palindrome(TheListOne theListOne){
-//
-//    }
-//
-//    //输入两个链表，找出它们的第一个公共结点
-//    public ListNode theCommon(TheListOne theListOne1, TheListOne theListOne2){
-//
-//    }
+    //给定一个带有头结点 head 的非空单链表，返回链表的中间结点。
+    //如果有两个中间结点，则返回第二个中间结点
+    public ListNode returnMiddle(){
+        ListNode slow = this.head;
+        ListNode fast = this.head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    //输入一个链表，输出该链表中倒数第k个结点
+    public ListNode soutLastNumK(int k){
+        if (k < 0){
+            throw new TheListAddIndexOutOfException("输出该链表倒数第k个结点时输入不合法！");
+        }
+        ListNode slow = this.head;
+        ListNode fast = this.head;
+        while(k - 1 > 0){
+            if (fast != null){
+                fast = fast.next;
+            }else {
+                throw new TheListAddIndexOutOfException("输出该链表倒数第k个结点时输入不合法！");
+            }
+            k--;
+        }
+
+        while(fast != null){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
+    //将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的
+    public TheListOne returnNew(TheListOne theListOne2){
+        ListNode current1 = this.head;
+        ListNode current2 = theListOne2.head;
+        TheListOne theListOne = new TheListOne();
+        while (current1 != null && current2 != null){
+            if (current1.value <= current2.value){
+                theListOne.addLast(current1.value);
+                current1 = current1.next;
+            }else {
+                theListOne.addLast(current2.value);
+                current2 = current2.next;
+            }
+        }
+       while(current1 != null){
+           theListOne.addLast(current1.value);
+           current1 = current1.next;
+       }
+       while(current2 != null){
+            theListOne.addLast(current2.value);
+            current2 = current2.next;
+        }
+       return theListOne;
+    }
+
+    //编写代码，以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
+    public void segmentation(int x){
+        ListNode current = this.head;
+        TheListOne preList = new TheListOne();
+        TheListOne latterList = new TheListOne();
+        while(current != null){
+            if (current.value <= x){
+                preList.addLast(current.value);
+                current = current.next;
+            }else {
+                latterList.addLast(current.value);
+                current = current.next;
+            }
+        }
+        TheListOne theListOne = preList.returnNew(latterList);
+        this.head = theListOne.head;
+    }
+
+
+
+
+    public TheListOne create(){
+        ListNode current = this.head;
+        TheListOne theListOne = new TheListOne();
+        while(current != null){
+            theListOne.addLast(current.value);
+            current = current.next;
+        }
+        return theListOne;
+    }
+    //链表的回文结构
+    public boolean palindrome(){
+        if (this.head == null){
+            throw new TheListIsEmptyException("判断回文结构时，单链表为空异常！");
+        }
+        TheListOne theListOne = this.create();
+        TheListOne theListOne1 = this.create();
+        theListOne.reverse();
+        while(theListOne.head != null){
+            if (theListOne.head.value != theListOne1.head.value){
+                return false;
+            }
+            theListOne1.head = theListOne1.head.next;
+            theListOne.head  = theListOne.head.next;
+        }
+        return true;
+    }
+
+    //输入两个链表，找出它们的第一个公共结点
+    public ListNode theCommon(TheListOne theListOne1, TheListOne theListOne2){
+
+    }
 //    //给定一个链表，判断链表中是否有环
 //    public boolean judgeHasRing(TheListOne theListOne){
 //
