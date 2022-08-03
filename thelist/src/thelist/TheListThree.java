@@ -72,11 +72,20 @@ public class TheListThree {
         TheListOne theListOne3 = new TheListOne();
         theListOne3.addLast(32);
         theListOne3.addLast(44);
+        theListOne3.addLast(41);
         theListOne3.addLast(47);
         theListOne3.addLast(44);
         theListOne3.addLast(32);
-        boolean flg = theListOne3.palindrome();
-        System.out.println(flg);
+        try {
+            boolean flg = theListOne3.palindrome();
+            System.out.println(flg);
+        }catch (TheListIsEmptyException E){
+            System.out.println(E);
+        }
+
+
+
+
 
     }
 

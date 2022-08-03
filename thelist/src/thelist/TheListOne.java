@@ -296,39 +296,80 @@ public class TheListOne {
     }
 
 
+    /**
+     * 关于判断链表是不是回文结构，时间复杂度O(n) 空间复杂度O(1)
+     * @return
+     */
+//    public TheListOne create(){
+//        ListNode current = this.head;
+//        TheListOne theListOne = new TheListOne();
+//        while(current != null){
+//            theListOne.addLast(current.value);
+//            current = current.next;
+//        }
+//        return theListOne;
+//    }
+//    //链表的回文结构
+//    public boolean palindrome(){
+//        if (this.head == null){
+//            throw new TheListIsEmptyException("判断回文结构时，单链表为空异常！");
+//        }
+//        TheListOne theListOne = this.create();
+//        TheListOne theListOne1 = this.create();
+//        theListOne.reverse();
+//        while(theListOne.head != null){
+//            if (theListOne.head.value != theListOne1.head.value){
+//                return false;
+//            }
+//            theListOne1.head = theListOne1.head.next;
+//            theListOne.head  = theListOne.head.next;
+//        }
+//        return true;
+//    }
 
 
-    public TheListOne create(){
-        ListNode current = this.head;
-        TheListOne theListOne = new TheListOne();
-        while(current != null){
-            theListOne.addLast(current.value);
-            current = current.next;
-        }
-        return theListOne;
-    }
     //链表的回文结构
-    public boolean palindrome(){
+    public boolean palindrome() {
         if (this.head == null){
-            throw new TheListIsEmptyException("判断回文结构时，单链表为空异常！");
+            throw new TheListIsEmptyException("判断回文结构中，链表为空产生异常！");
         }
-        TheListOne theListOne = this.create();
-        TheListOne theListOne1 = this.create();
-        theListOne.reverse();
-        while(theListOne.head != null){
-            if (theListOne.head.value != theListOne1.head.value){
+        ListNode slow = this.head;
+        ListNode fast = this.head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode middle = slow;
+        ListNode slowPre = slow;
+        ListNode slowNext = slow.next;
+        while(slowNext != null) {
+            slow = slowNext;
+            slowNext = slow.next;
+            slow.next = slowPre;
+            slowPre = slow;
+        }
+        middle.next = null;
+        while(slow != middle){
+            if (slow.value != this.head.value){
                 return false;
             }
-            theListOne1.head = theListOne1.head.next;
-            theListOne.head  = theListOne.head.next;
+            slow = slow.next;
+            this.head = this.head.next;
+        }
+        if (this.head.next != null){
+            if (this.head.value != this.head.next.value){
+                return false;
+            }
         }
         return true;
     }
 
-    //输入两个链表，找出它们的第一个公共结点
-    public ListNode theCommon(TheListOne theListOne1, TheListOne theListOne2){
 
-    }
+
+//    //输入两个链表，找出它们的第一个公共结点
+//    public ListNode theCommon(TheListOne theListOne1, TheListOne theListOne2){
+//
+//    }
 //    //给定一个链表，判断链表中是否有环
 //    public boolean judgeHasRing(TheListOne theListOne){
 //
