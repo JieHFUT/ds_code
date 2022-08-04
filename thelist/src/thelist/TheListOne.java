@@ -1,5 +1,7 @@
 package thelist;
 
+import java.util.LinkedList;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -277,22 +279,65 @@ public class TheListOne {
        return theListOne;
     }
 
+      //编写代码，以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
+//    public void segmentation(int x){
+//        ListNode current = this.head;
+//        TheListOne preList = new TheListOne();
+//        TheListOne latterList = new TheListOne();
+//        while(current != null){
+//            if (current.value < x){
+//                preList.addLast(current.value);
+//                current = current.next;
+//            }else {
+//                latterList.addLast(current.value);
+//                current = current.next;
+//            }
+//        }
+//        while (latterList.head != null){
+//            preList.addLast(latterList.head.value);
+//            latterList.head = latterList.head.next;
+//        }
+//        this.head = preList.head;
+//    }
+
     //编写代码，以给定值x为基准将链表分割成两部分，所有小于x的结点排在大于或等于x的结点之前
-    public void segmentation(int x){
+    public ListNode segmentation(int x) {
+        ListNode bs = null;
+        ListNode be = null;
+        ListNode as = null;
+        ListNode ae = null;
         ListNode current = this.head;
-        TheListOne preList = new TheListOne();
-        TheListOne latterList = new TheListOne();
         while(current != null){
-            if (current.value <= x){
-                preList.addLast(current.value);
-                current = current.next;
+            if (current.value < x){
+                if (bs == null){
+                    bs = current;
+                    be = current;
+                }else {
+                    be.next = current;
+                    be = be.next;
+                }
             }else {
-                latterList.addLast(current.value);
-                current = current.next;
+                if (as == null){
+                    as = current;
+                    ae = current;
+                }else {
+                    ae.next = current;
+                    ae = ae.next;
+                }
             }
+            current = current.next;
         }
-        TheListOne theListOne = preList.returnNew(latterList);
-        this.head = theListOne.head;
+        if (be == null){
+            return as;
+        }
+
+        be.next = as;
+        if (as != null){
+            ae.next = null;
+        }
+        return bs;
+
+
     }
 
 
@@ -366,16 +411,76 @@ public class TheListOne {
 
 
 
-//    //输入两个链表，找出它们的第一个公共结点
-//    public ListNode theCommon(TheListOne theListOne1, TheListOne theListOne2){
-//
-//    }
-//    //给定一个链表，判断链表中是否有环
-//    public boolean judgeHasRing(TheListOne theListOne){
-//
-//    }
-//    //给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 NULL
-//    public ListNode returnTheRingFirstListcode(TheListOne theListOne){
-//
-//    }
+    //输入两个链表，找出它们的第一个公共结点
+    public ListNode theCommon(ListNode head1, ListNode head2){
+
+        if (head1 == null || head2 == null) return null;
+        int len1 = 0;
+        int len2 = 0;
+        ListNode pl = head1;
+        ListNode ps = head2;
+        while(pl != null){
+            len1++;
+            pl = pl.next;
+        }
+        while(ps != null){
+            len2++;
+            ps = ps.next;
+        }
+        pl = head1;
+        ps = head2;
+        int len = len1 - len2;
+        if (len < 0){
+            pl = head2;
+            ps = head1;
+            len = -len;
+        }
+        while(len > 0){
+            pl = pl.next;
+            len--;
+        }
+       while(pl != null && ps != null){
+           if (pl == ps){
+               return pl;
+           }
+           pl = pl.next;
+           ps = ps.next;
+       }
+       return null;
+    }
+    //给定一个链表，判断链表中是否有环
+    public boolean judgeHasRing(){
+        ListNode slow = this.head;
+        ListNode fast = this.head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (fast == slow){
+                return true;
+            }
+        }
+        return false;
+
+    }
+    //给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 NULL
+    public ListNode returnTheRingFirstListcode(){
+        ListNode slow = this.head;
+        ListNode fast = this.head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (fast == slow){
+                slow = this.head;
+                while(slow != fast){
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+
+    }
 }

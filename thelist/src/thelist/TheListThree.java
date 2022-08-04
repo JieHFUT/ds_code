@@ -62,10 +62,19 @@ public class TheListThree {
         theListOne2.diaplay();
 
 
-        System.out.println("=================切割链表===================");
+        System.out.println("=================切割链表=================");
 
-        theListOne2.segmentation(55);
-        theListOne2.diaplay();
+        TheListOne theListOne4 = new TheListOne();
+        theListOne4.addLast(47);
+        theListOne4.addLast(44);
+        theListOne4.addLast(67);
+        theListOne4.addLast(49);
+        theListOne4.addLast(89);
+        theListOne4.addLast(55);
+        theListOne4.addLast(23);
+        theListOne4.diaplay();
+        theListOne4.segmentation(56);
+        theListOne4.diaplay();
 
 
         System.out.println("============链表是否是回文结构==============");
@@ -82,6 +91,13 @@ public class TheListThree {
         }catch (TheListIsEmptyException E){
             System.out.println(E);
         }
+
+
+
+
+
+
+
 
 
 
