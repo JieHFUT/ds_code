@@ -65,5 +65,19 @@ public class TestMyLinkedList {
 
 
 
+
+        MyLinkedList myLinkedList2 = new MyLinkedList();
+        myLinkedList2.addLast(1);
+        myLinkedList2.addLast(2);
+        myLinkedList2.clear();
+
+        MyLinkedList myLinkedList3 = new MyLinkedList();
+        myLinkedList3.addLast(1);
+
+        MyLinkedList myLinkedList4 = new MyLinkedList();
+        myLinkedList4.clear();
+
+        myLinkedList.clear();
+
     }
 }

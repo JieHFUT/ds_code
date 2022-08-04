@@ -166,12 +166,35 @@ public class MyLinkedList {
         }
         System.out.println();
     }
+    /*public void clear(){
+        if (this.size() > 2){
+            ListNode current = this.head.next.next;
+            while(current != null){
+                current.prel.next = null;
+                current.prel.prel = null;
+                current = current.next;
+            }
+        }
+        if (this.size() > 1){
+            this.head.next = null;
+            this.last.prel = null;
+        }
+        this.head = null;
+        this.last = null;
+
+    }*/
+
     public void clear(){
-
+        ListNode current = this.head;
+        while(current != null){
+            ListNode curNext = current.next;
+            //current.value = null;
+            current.prel = null;
+            current.next = null;
+            current = curNext;
+        }
+        this.head = null;
+        this.last = null;
     }
-
-
-
-
 
 }
