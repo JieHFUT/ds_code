@@ -280,17 +280,141 @@ public class MyBinaryTree<E> {
     }
     // 判断一棵树是不是完全二叉树
     public boolean isCompleteTree(TreeNote<E> root){
-
-
-
-
-
-
-
-
-
-        return false;
+        if (root == null) return false;
+        Queue<TreeNote> treeNoteQueue = new LinkedList<>();
+        treeNoteQueue.offer(root);
+        while(!treeNoteQueue.isEmpty()){
+            root = treeNoteQueue.poll();
+            if (root != null){
+                treeNoteQueue.offer(root.left);
+                treeNoteQueue.offer(root.right);
+            }else {
+                break;
+            }
+        }
+        while(!treeNoteQueue.isEmpty()){
+            TreeNote treeNote = treeNoteQueue.peek();
+            if (treeNote == null){
+                treeNoteQueue.poll();
+            }else {
+                return false;
+            }
+        }
+        return true;
     }
+
+
+    /**
+     * 判断两棵树是否相同
+     * @param p
+     * @param q
+     * @return
+     */
+    public boolean isSameTree(TreeNote p, TreeNote q) {
+        if (p == null && q == null) return true;
+        if (p == null) return false;
+        if (q == null) return false;
+        if (q.val != p.val) return false;
+        return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+
+    }
+
+
+    /**
+     * 判断一颗树是否包含另外一棵树 Omin(m*n)
+     * @param root
+     * @param subRoot
+     * @return
+     */
+    public boolean isSubtree(TreeNote root, TreeNote subRoot) {
+
+        if (root == null) return false;
+        if (this.isSameTree(root,subRoot)) return true;
+        return this.isSameTree(root.left,subRoot.left) || this.isSameTree(root.right,subRoot.right);
+    }
+
+
+    /**
+     * 给定一个二叉树，判断它是否是高度平衡的二叉树。
+     * 一棵高度平衡二叉树定义为：
+     * 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNote root) {
+        if (root == null) return true;
+        int leftHeight = this.getHeight(root.left);
+        int rightHeight = this.getHeight(root.right);
+        if (Math.abs(leftHeight - rightHeight) > 1)
+            return false;
+        if (!isBalanced(root.left)) return false;
+        if (!isBalanced(root.right)) return false;
+        return true;
+    }
+
+
+
+
+
+
+
+    public boolean otherIsBalanced(TreeNote root) {
+        if (root == null) return true;
+        if (otherGetHeight(root) != -1){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public int otherGetHeight(TreeNote root) {
+
+        if (root == null) return 0;
+        int leftH = getHeight(root.left);
+        int rightH = getHeight(root.right);
+        if (leftH >= 0 && rightH >= 0 && Math.abs(leftH - rightH) <= 1){
+            return Math.max(leftH,rightH) + 1;
+        }else {
+            return -1;
+        }
+    }
+    /**
+     * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNote root) {
+        if (root == null) return true;
+        TreeNote current = inTurnOneTree(root.left);
+        boolean flg = this.isSameTree(current,root.right);
+        inTurnOneTree(root.left);
+        return flg;
+    }
+
+    /**
+     * 将一颗树的每个节点的 left和 right的指向反过来
+     * @param root
+     * @return
+     */
+    public TreeNote inTurnOneTree(TreeNote root){
+        if (root == null) return null;
+        TreeNote current = root.left;
+        root.left = root.right;
+        root.right = current;
+        inTurnOneTree(root.left);
+        inTurnOneTree(root.right);
+        return root;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

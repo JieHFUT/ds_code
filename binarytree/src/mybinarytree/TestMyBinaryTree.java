@@ -56,6 +56,30 @@ public class TestMyBinaryTree {
         List<List<Character>> lists = myBinaryTree.otherLevelOrder(root);
         System.out.println(lists);
 
+        boolean flg = myBinaryTree.isCompleteTree(root);
+        System.out.println("该树是否是完全树：" + flg);
+
+
+
+        MyBinaryTree.TreeNote root1 = myBinaryTree.createBinaryTree();
+        MyBinaryTree.TreeNote root2 = myBinaryTree.createBinaryTree();
+        System.out.println(myBinaryTree.isSameTree(root1, root2));
+
+
+
+        myBinaryTree.preOrder(root);
+        myBinaryTree.inTurnOneTree(root);
+        myBinaryTree.preOrder(root);
+
+
+
+
+
+
+
+
+
+
 
     }
 
