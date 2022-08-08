@@ -1,9 +1,8 @@
 package mybinarytree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
+
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -409,6 +408,91 @@ public class MyBinaryTree<E> {
 
 
 
+    public boolean otherIsSymmetric(TreeNote root) {
+        if (root == null) return true;
+        return isSymmetricChild(root.left,root.right);
+    }
+
+    public boolean isSymmetricChild(TreeNote leftTree, TreeNote rightTree){
+        if (leftTree == null && rightTree == null) return true;
+        if (leftTree == null) return false;
+        if (rightTree == null) return false;
+        if (leftTree.val != rightTree.val) return false;
+        return isSymmetricChild(leftTree.left, rightTree.right) &&
+                isSymmetricChild(leftTree.right, rightTree.left);
+
+    }
+
+
+    /**
+     * 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先
+     */
+    public TreeNote lowestCommonAncestor(TreeNote root, TreeNote p, TreeNote q) {
+        if (root == null) return null;
+
+        Stack<TreeNote> stack1 = new Stack<>();
+        this.findPath(root,p,stack1);
+
+        Stack<TreeNote> stack2 = new Stack<>();
+        this.findPath(root,q,stack2);
+
+        int lenStack1 = stack1.size();
+        int lenStack2 = stack2.size();
+
+        if (lenStack1 >= lenStack2){
+            int lenDiffer = lenStack1 - lenStack2;
+            while(lenDiffer > 0){
+                stack1.pop();
+                lenDiffer--;
+            }
+        }else {
+            int lenDiffer = lenStack2 - lenStack1;
+            while (lenDiffer > 0) {
+                stack2.pop();
+                lenDiffer--;
+            }
+        }
+        while(!stack1.isEmpty()){
+            if (stack1.peek() == stack2.peek())
+                return stack1.pop();
+            stack1.pop();
+            stack2.pop();
+        }
+        return null;
+    }
+
+    public boolean findPath(TreeNote root, TreeNote note, Stack<TreeNote> treeNoteStack){
+        if (root == null || note == null) return false;
+        if (root == note) {
+            treeNoteStack.push(root);
+            return true;
+        }
+        treeNoteStack.push(root);
+        boolean flg1 = findPath(root.left,note,treeNoteStack);
+        boolean flg2 = findPath(root.right,note,treeNoteStack);
+        if (flg1 == false && flg2 == false){
+            treeNoteStack.pop();
+            return false;
+        }
+        return true;
+    }
+
+
+    public TreeNote otherLowestCommonAncestor(TreeNote root, TreeNote p, TreeNote q) {
+        if (root == null) return null;
+        if (root == p || root == q) return root;
+        TreeNote leftTree = otherLowestCommonAncestor(root.left,p,q);
+        TreeNote rightTree = otherLowestCommonAncestor(root.right,p,q);
+
+        if (leftTree == root.left && rightTree == root.right){
+            return root;
+        } else if (leftTree == root.left) {
+            return root.left;
+        } else if (rightTree == root.right) {
+            return root.right;
+        }
+        return null;
+    }
 
 
 
@@ -416,6 +500,171 @@ public class MyBinaryTree<E> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表
+     * @param //pRootOfTree
+     * @return
+     */
+    public TreeNote preRoot;
+    public void conventChild(TreeNote root){
+        if (root == null) return;
+        conventChild(root.left);
+        root.left = this.preRoot;
+        if (this.preRoot != null) {
+            this.preRoot.right = root;
+        }
+        this.preRoot = root;
+        conventChild(root.right);
+    }
+    public TreeNote convert(TreeNote pRootOfTree) {
+        if (pRootOfTree == null) return null;
+        conventChild(pRootOfTree);
+        TreeNote ret = pRootOfTree;
+        if (ret.left != null) {
+            ret = ret.left;
+        }
+        return ret;
+
+    }
+
+
+
+
+
+
+
+
+
+    /**
+         * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表
+         * @param pRootOfTree
+         * @return
+         */
+
+    public TreeNote otherConvert(TreeNote pRootOfTree) {
+        Queue<TreeNote> queueOfTree = this.archived(pRootOfTree);
+        TreeNote ret = queueOfTree.peek();
+        ret.left = null;
+        while(!queueOfTree.isEmpty()){
+            TreeNote current = queueOfTree.peek();
+            queueOfTree.poll();
+            if (!queueOfTree.isEmpty()){
+                TreeNote nextCurrent = queueOfTree.peek();
+                current.right = nextCurrent;
+                nextCurrent.left = current;
+            }
+            if(queueOfTree.isEmpty())
+                current.right = null;
+        }
+        return ret;
+    }
+
+    /**
+     * 将一颗二叉搜索树的中序遍历的的节点存储在一个队列中
+     * @param root
+     * @return
+     */
+    public Queue<TreeNote> archived(TreeNote root){
+        Queue<TreeNote> queue = new LinkedList();
+        if (root == null) return queue;
+
+        Queue<TreeNote> queue1 = archived(root.left);
+        queue.addAll(queue1);
+
+        Queue<TreeNote> queue2 = archived(root.right);
+        queue.addAll(queue2);
+
+        return queue;
+    }
+
+
+    /**
+     * 给定两个整数数组 preorder 和 inorder ，
+     * 其中 preorder 是二叉树的先序遍历，
+     * inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+
+    public TreeNote buildTree(int[] preorder, int[] inorder) {
+
+    }
+
+
+
+    /**
+     * 给定两个整数数组 inorder 和 postorder ，
+     * 其中 inorder 是二叉树的中序遍历，
+     * postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public TreeNote buildTree(int[] inorder, int[] postorder) {
+
+    }
+
+    public TreeNote createTree(int[] inorder, int[] postorder, int leftBegin, int rightEnd) {
+
+    }
+
+    /**
+     * 给你二叉树的根节点 root ，
+     * 请你采用前序遍历的方式，将二叉树转化为一个由括号和整数组成的字符串，
+     * 返回构造出的字符串。
+     *
+     * 空节点使用一对空括号对 "()" 表示，
+     * 转化后需要省略所有不影响字符串与原始二叉树之间的一对一映射关系的空括号对。
+     * @param root
+     * @return
+     */
+    public String tree2str(TreeNote root) {
+
+    }
+
+
+    /**
+     * 使用非递归来实现三种遍历方式
+     *
+     */
+
+    public List<Integer> preorderTraversal(TreeNote root) {
+
+
+    }
+
+
+
+
+
+    public List<Integer> inorderTraversal(TreeNote root) {
+
+    }
+
+
+
+
+
+    public List<Integer> postorderTraversal(TreeNote root) {
+
+    }
+}
 
 
 
