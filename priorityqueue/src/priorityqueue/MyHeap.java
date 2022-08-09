@@ -132,15 +132,18 @@ public class MyHeap {
 
     //O(n*logn)
     public void heapSort() {
-        int end = usedSize-1;
+        int end = this.usedSize-1;
         while (end > 0) {
-            int tmp = elem[0];
-            elem[0] = elem[end];
-            elem[end] = tmp;
-            shiftDown(0,end);
+            int tmp = this.elem[0];
+            this.elem[0] = this.elem[end];
+            this.elem[end] = tmp;
+            this.shiftDown(0,end);
             end--;
         }
     }
+
+
+
 
 
 }
