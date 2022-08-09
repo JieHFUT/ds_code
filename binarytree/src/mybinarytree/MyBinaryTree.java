@@ -602,9 +602,39 @@ public class MyBinaryTree<E> {
      * @return
      */
 
-    public TreeNote buildTree(int[] preorder, int[] inorder) {
+    public TreeNote buildTree1(int[] preorder, int[] inorder) {
 
+        TreeNote ret = this.createTree(preorder,inorder,0,inorder.length-1);
+        return ret;
     }
+
+    private int rootIndex = 0;
+    public TreeNote createTree(int[] preorder, int[] inorder, int leftBegin, int rightEnd) {
+        TreeNote ret = new TreeNote(preorder[rootIndex]);
+        if (leftBegin > rightEnd) return null;
+        //找到根节点
+        int val = preorder[this.rootIndex];
+        //找到在中序数组中对应的根节点的位置的下标，将中序数组的左右子树分离出来
+        int subscript = findInorderOfVal(inorder,leftBegin,rightEnd,val);
+        if (subscript == -1)
+            return null;
+        this.rootIndex++;
+        ret.left = createTree(preorder,inorder,leftBegin,subscript-1);
+        ret.right = createTree(preorder,inorder,subscript+1,rightEnd);
+        return ret;
+    }
+
+    public int findInorderOfVal(int[] inorder, int leftBegin, int rightEnd, int val) {
+        for (int i = 0; i < rightEnd; i++) {
+            if (inorder[i] == val)
+                return i;
+        }
+        return -1;
+    }
+
+
+
+
 
 
 
@@ -616,13 +646,32 @@ public class MyBinaryTree<E> {
      * @param postorder
      * @return
      */
-    public TreeNote buildTree(int[] inorder, int[] postorder) {
-
+    public TreeNote buildTree2(int[] inorder, int[] postorder) {
+        this.rootIndex2 = postorder.length-1;
+        TreeNote ret = this.createTree2(inorder,0,inorder.length-1,postorder);
+        return ret;
+    }
+    private int rootIndex2 = 0;
+    public TreeNote createTree2(int[] inorder, int leftBegin, int rightEnd, int[] postorder) {
+        if (leftBegin > rightEnd) return null;
+        int val = postorder[rootIndex2];
+        TreeNote ret = new TreeNote(val);
+        int subscript = toFindInorderOfVal(inorder,leftBegin,rightEnd,val);
+        if (subscript == -1) return null;
+        rootIndex2--;
+        ret.right = createTree2(inorder, subscript+1,rightEnd,postorder);
+        ret.left = createTree2(inorder, leftBegin,subscript-1,postorder);
+        return ret;
     }
 
-    public TreeNote createTree(int[] inorder, int[] postorder, int leftBegin, int rightEnd) {
-
+    public int toFindInorderOfVal(int[] inorder, int leftBegin, int rightEnd, int val) {
+        for (int i = leftBegin; i <= rightEnd; i++) {
+            if (inorder[i] == val)
+                return i;
+        }
+        return -1;
     }
+
 
     /**
      * 给你二叉树的根节点 root ，
@@ -635,25 +684,63 @@ public class MyBinaryTree<E> {
      * @return
      */
     public String tree2str(TreeNote root) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = treeToStr(root,stringBuilder);
+        return stringBuilder.toString();
 
     }
 
+    public StringBuilder treeToStr(TreeNote treeNote, StringBuilder stringBuilder) {
+        if (treeNote == null) return null;
+            stringBuilder.append(treeNote.val);
+        if (treeNote.left != null) {
+            if (treeNote.right != null) {
+                stringBuilder.append('(');
+                treeToStr(treeNote.left,stringBuilder);
+                treeToStr(treeNote.right,stringBuilder);
+            }else {
+                stringBuilder.append('(');
+                treeToStr(treeNote.left,stringBuilder);
+            }
+        }else {
+            if (treeNote.right != null) {
+                stringBuilder.append('(');
+                stringBuilder.append("()");
+                treeToStr(treeNote.right,stringBuilder);
+            }else {
+                return stringBuilder;
+            }
+        }
+        stringBuilder.append(')');
+        return stringBuilder;
+    }
 
     /**
      * 使用非递归来实现三种遍历方式
      *
      */
 
-    public List<Integer> preorderTraversal(TreeNote root) {
-
-
+    public List preorderTraversal(TreeNote root) {
+        if (root == null) return null;
+        List treeNoteList = new ArrayList<>();
+        Stack<TreeNote> treeNoteStack = new Stack<>();
+        TreeNote current = root;
+        while(current != null || !treeNoteStack.isEmpty()) {
+            while(current != null) {
+                treeNoteStack.push(current);
+                treeNoteList.add(treeNoteStack.peek().val);
+                current = current.left;
+            }
+            current = treeNoteStack.pop().right;
+        }
+        return treeNoteList;
     }
 
 
 
 
 
-    public List<Integer> inorderTraversal(TreeNote root) {
+    /*public List<Integer> inorderTraversal(TreeNote root) {
 
     }
 
@@ -664,7 +751,7 @@ public class MyBinaryTree<E> {
     public List<Integer> postorderTraversal(TreeNote root) {
 
     }
-}
+}*/
 
 
 
