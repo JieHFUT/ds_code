@@ -170,7 +170,15 @@ public class Sorting {
     }
 
 
-    private int partition(int[] array, int low, int high){
+    /**
+     * 要注意的地方是如果是取左边的作为关键字，就要右边先走
+     * Hoare版
+     * @param array
+     * @param low
+     * @param high
+     * @return
+     */
+    private int partitionHoare(int[] array, int low, int high){
         int i = low;
         int pivot = array[low];
         while (low < high){
@@ -190,16 +198,107 @@ public class Sorting {
         return low;
     }
 
-    private void quick(int[] array, int low, int high){
+    private void quickHoare(int[] array, int low, int high){
         while(low >= high) return;
-        int pivot = partition(array,low,high);
-        quick(array,low,pivot-1);
-        quick(array,pivot+1,high);
+        int pivot = partitionHoare(array,low,high);
+        quickHoare(array,low,pivot-1);
+        quickHoare(array,pivot+1,high);
     }
 
-    public void quickSort(int[] array){
-        quick(array,0,array.length-1);
+    public void quickSortHoare(int[] array){
+        quickHoare(array,0,array.length-1);
     }
+
+
+    /**
+     * 挖坑法
+     * @param array
+     * @param low
+     * @param high
+     * @return
+     */
+
+    private int partitionPit(int[] array, int low, int high){
+        int tmp = array[low];
+        while(low < high){
+
+            while(low < high && array[high] >= tmp){
+                high--;
+            }
+            array[low] = array[high];
+            while (low < high && array[low] <= tmp){
+                low++;
+            }
+            array[high] = array[low];
+        }
+        array[low] = tmp;
+        return low;
+    }
+
+    private void quickPit(int[] array, int low, int high){
+        while(low >= high) return;
+        int pivot = partitionHoare(array,low,high);
+        quickHoare(array,low,pivot-1);
+        quickHoare(array,pivot+1,high);
+    }
+
+    public void quickSortPit(int[] array){
+        quickHoare(array,0,array.length-1);
+    }
+
+
+    /**
+     * 双指针法
+     * @param array
+     * @param low
+     * @param high
+     */
+    private void partitionPointer(int[] array, int low, int high){
+        int cur = low + 1;
+        int prev = low;
+        while(cur <= high){
+            while (array[cur] < array[low] && array[++prev] != array[low]){
+                swap(array,cur,prev);
+            }
+            cur++;
+        }
+
+    }
+
+    private static int partitionPointer2(int[] array, int left, int right) {
+        int d = left + 1;
+        int pivot = array[left];
+        for (int i = left + 1; i <= right; i++) {
+            if (array[i] < pivot) {
+                swap(array, i, d);
+                d++;
+            }
+        }
+        swap(array, d - 1, left);
+        return d - 1;
+    }
+
+    private void quickPointer(int[] array, int low, int high){
+        while(low >= high) return;
+        int pivot = partitionHoare(array,low,high);
+        quickHoare(array,low,pivot-1);
+        quickHoare(array,pivot+1,high);
+    }
+
+    public void quickSortPointer(int[] array){
+        quickHoare(array,0,array.length-1);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -221,8 +320,25 @@ public class Sorting {
     public static void main(String[] args) {
         int[] array = {12,23,4,676,3,4,68,2,43,5,56,7,23};
         Sorting sorting = new Sorting();
-        sorting.quickSort(array);
+
+
+
+    }
+
+    public static void main5(String[] args) {
+        int[] array = {12,23,4,676,3,4,68,2,43,5,56,7,23};
+        Sorting sorting = new Sorting();
+        sorting.quickSortHoare(array);
         System.out.println(Arrays.toString(array));
+
+        array = new int[]{12,23,4,676,3,4,68,2,43,5,56,7,23};
+        sorting.quickSortPit(array);
+        System.out.println(Arrays.toString(array));
+
+        array = new int[]{12,23,4,676,3,4,68,2,43,5,56,7,23};
+        sorting.quickSortPointer(array);
+        System.out.println(Arrays.toString(array));
+
     }
 
 
